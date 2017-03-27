@@ -15,7 +15,7 @@ namespace Task2
                 for (int j = 0; j < arr.Length - 1; j++) 
                     if (arr[i].Sum() < arr[j].Sum())
                     {
-                        Replace(arr[i], arr[j]);
+                        Replace(ref arr[i], ref arr[j]);
                     }
         }
 
@@ -33,7 +33,7 @@ namespace Task2
                 for (int j = 0; j < arr.Length - 1; j++)
                     if (arr[i].Max() < arr[j].Max())
                     {
-                        Replace(arr[i], arr[j]);
+                        Replace(ref arr[i], ref arr[j]);
                     }
         }
 
@@ -43,7 +43,7 @@ namespace Task2
             BubbleSortOrderByMaxElemInRowAsc(arr);
             arr.Reverse();
         }
-
+        
 
         public static void BubbleSortOrderByMinElemInRowAsc(int[][] arr)
         {
@@ -52,7 +52,7 @@ namespace Task2
                 for (int j = 0; j < arr.Length - 1; j++)
                     if (arr[i].Min() < arr[j].Min())
                     {
-                        Replace(arr[i], arr[j]);
+                        Replace(ref arr[i], ref arr[j]);
                     }
         }
 
@@ -69,7 +69,7 @@ namespace Task2
                 throw new ArgumentException();
         }
 
-        private static void Replace(int[] arr1, int[] arr2)
+        private static void Replace(ref int[] arr1, ref int[] arr2)
         {
             int[] temp = arr1;
             arr1 = arr2;
