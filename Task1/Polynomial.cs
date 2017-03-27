@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Task1
 {
     /// <summary>
-    /// This class works with polynomials.
+    /// Immutable class which works with polynomials.
     /// </summary>
     public class Polynomial
     {
