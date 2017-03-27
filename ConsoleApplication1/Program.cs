@@ -16,6 +16,7 @@ namespace ConsoleApplication1
             Polynomial p3 = new Polynomial(3, 5, 2, 9);
             Polynomial p4 = new Polynomial(0, 4, 5);
             Console.WriteLine(p1.Equals(p2));
+            int[][] a = new int[][] { new int[] { 2, 3 }, new int[] { 2 } };
         }
     }
 }
