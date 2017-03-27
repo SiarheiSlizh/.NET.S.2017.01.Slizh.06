@@ -31,8 +31,10 @@ namespace Task2
         public static void BubbleSortOrderBySumRowsDesc(int[][] arr)
         {
             ArgExcecption(arr);
-            BubbleSortOrderBySumRowsAsc(arr);
-            arr.Reverse();
+            for (int i = 1; i < arr.Length; i++)
+                for (int j = 0; j < arr.Length - 1; j++)
+                    if (arr[i].Sum() > arr[j].Sum())
+                        Replace(ref arr[i], ref arr[j]);
         }
 
         /// <summary>
@@ -55,8 +57,10 @@ namespace Task2
         public static void BubbleSortOrderByMaxElemInRowDesc(int[][] arr)
         {
             ArgExcecption(arr);
-            BubbleSortOrderByMaxElemInRowAsc(arr);
-            arr.Reverse();
+            for (int i = 1; i < arr.Length; i++)
+                for (int j = 0; j < arr.Length - 1; j++)
+                    if (arr[i].Max() > arr[j].Max())
+                        Replace(ref arr[i], ref arr[j]);
         }
 
         /// <summary>
@@ -79,8 +83,10 @@ namespace Task2
         public static void BubbleSortOrderByMinElemInRowDesc(int[][] arr)
         {
             ArgExcecption(arr);
-            BubbleSortOrderByMinElemInRowAsc(arr);
-            arr.Reverse();
+            for (int i = 1; i < arr.Length; i++)
+                for (int j = 0; j < arr.Length - 1; j++)
+                    if (arr[i].Min() > arr[j].Min())
+                        Replace(ref arr[i], ref arr[j]);
         }
 
         /// <summary>

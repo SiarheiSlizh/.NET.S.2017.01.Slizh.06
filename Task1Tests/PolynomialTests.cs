@@ -40,7 +40,7 @@ namespace Task1Tests
             return (new Polynomial(args1) + new Polynomial(args2)).ToString();
         }
 
-        [TestCase(new int[] { 3, 4, 6 }, new int[] { 6, 6, 18, 5, -7 }, ExpectedResult = "P(x) = -6x^4 + -6x^3 + -15x^2 + -1x^1 + 1")]
+        [TestCase(new int[] { 3, 4, 6 }, new int[] { 6, 6, 18, 5, -7 }, ExpectedResult = "P(x) = -6x^4 + -6x^3 + -15x^2 + -1x^1 + 13")]
         [TestCase(new int[] { 6, -4, 9 }, new int[] { 3, 4, 6 }, ExpectedResult = "P(x) = 3x^2 + -8x^1 + 3")]
         public string Sub_PositiveTests(int[] args1, int[] args2)
         {
