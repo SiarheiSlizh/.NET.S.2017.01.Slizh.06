@@ -71,6 +71,9 @@ namespace Task2
 
         private static void Replace(ref int[] arr1, ref int[] arr2)
         {
+            if (arr1 == null || arr2 == null)
+                throw new ArgumentNullException();
+
             int[] temp = arr1;
             arr1 = arr2;
             arr2 = temp;
