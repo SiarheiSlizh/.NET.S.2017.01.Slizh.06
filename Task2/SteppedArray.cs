@@ -14,9 +14,7 @@ namespace Task2
             for (int i = 1; i < arr.Length; i++)
                 for (int j = 0; j < arr.Length - 1; j++) 
                     if (arr[i].Sum() < arr[j].Sum())
-                    {
                         Replace(ref arr[i], ref arr[j]);
-                    }
         }
 
         public static void BubbleSortOrderBySumRowsDesc(int[][] arr)
@@ -32,9 +30,7 @@ namespace Task2
             for (int i = 1; i < arr.Length; i++)
                 for (int j = 0; j < arr.Length - 1; j++)
                     if (arr[i].Max() < arr[j].Max())
-                    {
                         Replace(ref arr[i], ref arr[j]);
-                    }
         }
 
         public static void BubbleSortOrderByMaxElemInRowDesc(int[][] arr)
@@ -51,9 +47,7 @@ namespace Task2
             for (int i = 1; i < arr.Length; i++)
                 for (int j = 0; j < arr.Length - 1; j++)
                     if (arr[i].Min() < arr[j].Min())
-                    {
                         Replace(ref arr[i], ref arr[j]);
-                    }
         }
 
         public static void BubbleSortOrderByMinElemInRowDesc(int[][] arr)
@@ -67,13 +61,13 @@ namespace Task2
         {
             if (arr == null)
                 throw new ArgumentException();
+            foreach (int[] subArr in arr)
+                if (subArr == null)
+                    throw new ArgumentException();
         }
 
         private static void Replace(ref int[] arr1, ref int[] arr2)
         {
-            if (arr1 == null || arr2 == null)
-                throw new ArgumentNullException();
-
             int[] temp = arr1;
             arr1 = arr2;
             arr2 = temp;

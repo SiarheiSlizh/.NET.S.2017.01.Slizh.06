@@ -148,6 +148,12 @@ namespace Task1
         #endregion
 
         #region private operator overloading
+        /// <summary>
+        /// Overloding operation which allaws to find addition betwrrn two objects type of polynomial.
+        /// </summary>
+        /// <param name="p1">Object type of polynomial.</param>
+        /// <param name="p2">Object type of polynomial.</param>
+        /// <returns>New object type of polynomial.</returns>
         private static Polynomial Add(Polynomial p1, Polynomial p2)
         {
             if (p1 == null || p2 == null)
@@ -165,6 +171,12 @@ namespace Task1
             return p;
         }
 
+        /// <summary>
+        /// Overloding operation which allaws to find substraction between two objects type of polynomial.
+        /// </summary>
+        /// <param name="p1">Object type of polynomial.</param>
+        /// <param name="p2">Object type of polynomial.</param>
+        /// <returns>New object type of polynomial.</returns>
         private static Polynomial Sub(Polynomial p1, Polynomial p2)
         {
             if (p1 == null || p2 == null)
@@ -182,6 +194,12 @@ namespace Task1
             return p;
         }
 
+        /// <summary>
+        /// Overloding operation which allaws to find multiply between two objects type of polynomial.
+        /// </summary>
+        /// <param name="p1">Object type of polynomial</param>
+        /// <param name="p2">Object type of polynomial</param>
+        /// <returns>New object type of polynomial.</returns>
         private static Polynomial Mul(Polynomial p1, Polynomial p2)
         {
             if (p1 == null || p2 == null)
@@ -195,12 +213,24 @@ namespace Task1
             return p;
         }
 
+        /// <summary>
+        /// Overloding operation which allaws to equal two objects type of polynomial.
+        /// </summary>
+        /// <param name="p1">Object type of polynomial</param>
+        /// <param name="p2">Object type of polynomial</param>
+        /// <returns>New object type of polynomial.</returns>
         private static bool Eql(Polynomial p1, Polynomial p2)
         {
             if (ReferenceEquals(p1, p2)) return true;
             else return false;
         }
 
+        /// <summary>
+        /// Overloding operation which allaws to equal two objects type of polynomial.
+        /// </summary>
+        /// <param name="p1">Object type of polynomial</param>
+        /// <param name="p2">Object type of polynomial</param>
+        /// <returns>New object type of polynomial.</returns>
         private static bool NotEql(Polynomial p1, Polynomial p2)
         {
             if (!ReferenceEquals(p1, p2)) return true;
