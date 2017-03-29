@@ -67,5 +67,21 @@ namespace Task1Tests
         {
             return new Polynomial(4, 4) != new Polynomial(arr);
         }
+
+        [TestCase(new double[] { 3, 4 })]
+        public void Clone_Tests(double[] args1)
+        {
+            Polynomial expected = new Polynomial(args1);
+            Polynomial actual = expected.Clone();
+            Assert.AreEqual(actual, expected);
+        }
+
+        [TestCase(new double[] { 3, 4 })]
+        public void IClone_Tests(double[] args1)
+        {
+            ICloneable expected = new Polynomial(args1);
+            object actual = expected.Clone();
+            Assert.AreEqual(actual, expected);
+        }
     }
 }
