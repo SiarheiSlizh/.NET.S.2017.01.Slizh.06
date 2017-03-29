@@ -38,6 +38,10 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SortByMaxElementsAsc.cs" />
+    <Compile Include="SortByMaxElementsDesc.cs" />
+    <Compile Include="SortBySumElementsAsc.cs" />
+    <Compile Include="SortBySumElementsDesc.cs" />
     <Compile Include="SteppedArrayTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

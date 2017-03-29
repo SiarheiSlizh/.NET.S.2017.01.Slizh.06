@@ -7,85 +7,34 @@ using System.Threading.Tasks;
 namespace Task2
 {
     /// <summary>
+    /// Interface which is used to compare two arrays.
+    /// </summary>
+    public interface IComparer
+    {
+        /// <summary>
+        /// This method compare two arrays.
+        /// </summary>
+        /// <param name="arr1">First array.</param>
+        /// <param name="arr2">Second array.</param>
+        /// <returns></returns>
+        bool Compare(int[] arr1, int[] arr2);
+    }
+
+    /// <summary>
     /// This class works with stepped arrays.
     /// </summary>
     public static class SteppedArray
     {
         /// <summary>
-        /// Method sorts stepped array in order by sum of row's elements ascending.
+        /// Method sorts stepped array using Bubble method.
         /// </summary>
         /// <param name="arr">Stepped array.</param>
-        public static void BubbleSortOrderBySumRowsAsc(int[][] arr)
+        public static void BubbleSort(int[][] arr, IComparer criterion)
         {
             ArgExcecption(arr);
-            for (int i = 1; i < arr.Length; i++)
-                for (int j = 0; j < arr.Length - 1; j++) 
-                    if (arr[i].Sum() < arr[j].Sum())
-                        Replace(ref arr[i], ref arr[j]);
-        }
-
-        /// <summary>
-        /// Method sorts stepped array in order by sum of row's elements descending.
-        /// </summary>
-        /// <param name="arr">Stepped array.</param>
-        public static void BubbleSortOrderBySumRowsDesc(int[][] arr)
-        {
-            ArgExcecption(arr);
-            for (int i = 1; i < arr.Length; i++)
-                for (int j = 0; j < arr.Length - 1; j++)
-                    if (arr[i].Sum() > arr[j].Sum())
-                        Replace(ref arr[i], ref arr[j]);
-        }
-
-        /// <summary>
-        /// Method sorts stepped array in order by max elemets in row ascending.
-        /// </summary>
-        /// <param name="arr">Stepped array.</param>
-        public static void BubbleSortOrderByMaxElemInRowAsc(int[][] arr)
-        {
-            ArgExcecption(arr);
-            for (int i = 1; i < arr.Length; i++)
-                for (int j = 0; j < arr.Length - 1; j++)
-                    if (arr[i].Max() < arr[j].Max())
-                        Replace(ref arr[i], ref arr[j]);
-        }
-
-        /// <summary>
-        /// Method sorts stepped array in order by max elemets in row descending.
-        /// </summary>
-        /// <param name="arr">Stepped array.</param>
-        public static void BubbleSortOrderByMaxElemInRowDesc(int[][] arr)
-        {
-            ArgExcecption(arr);
-            for (int i = 1; i < arr.Length; i++)
-                for (int j = 0; j < arr.Length - 1; j++)
-                    if (arr[i].Max() > arr[j].Max())
-                        Replace(ref arr[i], ref arr[j]);
-        }
-
-        /// <summary>
-        /// Method sorts stepped array in order by min elemets in row ascending.
-        /// </summary>
-        /// <param name="arr">Stepped array.</param>
-        public static void BubbleSortOrderByMinElemInRowAsc(int[][] arr)
-        {
-            ArgExcecption(arr);
-            for (int i = 1; i < arr.Length; i++)
-                for (int j = 0; j < arr.Length - 1; j++)
-                    if (arr[i].Min() < arr[j].Min())
-                        Replace(ref arr[i], ref arr[j]);
-        }
-
-        /// <summary>
-        /// Method sorts stepped array in order by max elemets in row descending.
-        /// </summary>
-        /// <param name="arr">Stepped array.</param>
-        public static void BubbleSortOrderByMinElemInRowDesc(int[][] arr)
-        {
-            ArgExcecption(arr);
-            for (int i = 1; i < arr.Length; i++)
-                for (int j = 0; j < arr.Length - 1; j++)
-                    if (arr[i].Min() > arr[j].Min())
+            for (int i = 0; i < arr.Length - 1; i++)
+                for (int j = i + 1; j < arr.Length; j++)
+                    if (criterion.Compare(arr[i], arr[j])) 
                         Replace(ref arr[i], ref arr[j]);
         }
 

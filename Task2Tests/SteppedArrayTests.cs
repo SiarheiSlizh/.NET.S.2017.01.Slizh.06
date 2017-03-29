@@ -32,7 +32,8 @@ namespace Task2Tests
         [TestCase(null)]
         public void SteppedArray_ArgumentException(int[][] arr)
         {
-            Assert.Throws<ArgumentException>(() => SteppedArray.BubbleSortOrderByMaxElemInRowAsc(arr));
+            IComparer criterion = null;
+            Assert.Throws<ArgumentException>(() => SteppedArray.BubbleSort(arr, criterion));
         }
 
         [Test]
@@ -44,7 +45,8 @@ namespace Task2Tests
                     null,
                     new int[] { 1 }
                 };
-            Assert.Throws<ArgumentException>(() => SteppedArray.BubbleSortOrderByMaxElemInRowAsc(actual));
+            IComparer criterion = new SortBySumElementsAsc();
+            Assert.Throws<ArgumentException>(() => SteppedArray.BubbleSort(actual, criterion));
         }
 
         [Test]
@@ -59,7 +61,8 @@ namespace Task2Tests
                     new int[] {-10, 32, 22, -19, 7, 5, 2 , -9},
                     new int[] { 32, 11, -6, 4 }
                 };
-            SteppedArray.BubbleSortOrderBySumRowsAsc(actual);
+            IComparer criterion = new SortBySumElementsAsc();
+            SteppedArray.BubbleSort(actual, criterion);
             Assert.AreEqual(actual, expected);
         }
 
@@ -75,7 +78,8 @@ namespace Task2Tests
                     new int[] { 4, 7, -15, 2 },
                     new int[] { -12, 5, -2, 4 }
                 };
-            SteppedArray.BubbleSortOrderBySumRowsDesc(actual);
+            IComparer criterion = new SortBySumElementsDesc();
+            SteppedArray.BubbleSort(actual, criterion);
             Assert.AreEqual(actual, expected);
         }
 
@@ -91,7 +95,8 @@ namespace Task2Tests
                     new int[] { 32, 11, -6, 4 },
                     new int[] {-10, 32, 22, -19, 7, 5, 2 , -9}
                 };
-            SteppedArray.BubbleSortOrderByMaxElemInRowAsc(actual);
+            IComparer criterion = new SortByMaxElementsAsc();
+            SteppedArray.BubbleSort(actual, criterion);
             Assert.AreEqual(actual, expected);
         }
 
@@ -107,39 +112,8 @@ namespace Task2Tests
                     new int[] { 4, 7, -15, 2 },
                     new int[] { -12, 5, -2, 4 }
                 };
-            SteppedArray.BubbleSortOrderByMaxElemInRowDesc(actual);
-            Assert.AreEqual(actual, expected);
-        }
-
-        [Test]
-        public void BubbleSortOrderByMinElemInRowAsc_PositiveTests()
-        {
-            int[][] actual = ArrData;
-            int[][] expected = new int[][]
-                {
-                    new int[] {-10, 32, 22, -19, 7, 5, 2 , -9},
-                    new int[] { 23, -17, 5, 2, -5, 11 },
-                    new int[] { 4, 7, -15, 2 },
-                    new int[] { -12, 5, -2, 4 },
-                    new int[] { 32, 11, -6, 4 },
-                };
-            SteppedArray.BubbleSortOrderByMinElemInRowAsc(actual);
-            Assert.AreEqual(actual, expected);
-        }
-
-        [Test]
-        public void BubbleSortOrderByMinElemInRowDesc_PositiveTests()
-        {
-            int[][] actual = ArrData;
-            int[][] expected = new int[][]
-                {
-                    new int[] { 32, 11, -6, 4 },
-                    new int[] { -12, 5, -2, 4 },
-                    new int[] { 4, 7, -15, 2 },
-                    new int[] { 23, -17, 5, 2, -5, 11 },
-                    new int[] {-10, 32, 22, -19, 7, 5, 2 , -9}
-                };
-            SteppedArray.BubbleSortOrderByMinElemInRowDesc(actual);
+            IComparer criterion = new SortByMaxElementsDesc();
+            SteppedArray.BubbleSort(actual, criterion);
             Assert.AreEqual(actual, expected);
         }
     }
