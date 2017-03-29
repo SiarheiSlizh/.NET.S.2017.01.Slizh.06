@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,55 +10,47 @@ namespace Task1
     /// <summary>
     /// Immutable class which works with polynomials.
     /// </summary>
-    public class Polynomial
+    public sealed class Polynomial: ICloneable
     {
-        
         #region fields
         /// <summary>
         /// Coeffitients of polynomial.
         /// </summary>
-        private int[] arrCoeff;
+        private readonly double[] arrCoeff;
+        //public static double epsilon;
+        #endregion
+
+        #region Indexers
+        public double this [int i]
+        {
+            get
+            {
+                if (i > arrCoeff.Length - 1 || i < 0)
+                    throw new ArgumentOutOfRangeException();
+                return arrCoeff[i];
+            }
+        }
         #endregion
 
         #region Constructors
-        /// <summary>
-        /// This constructor allaws to initialize Poynomial of 0 degree.
-        /// </summary>
-        /// <param name="coeff1">Coeffitient.</param>
-        public Polynomial(int coeff1)
-        {
-            arrCoeff = new int[] { coeff1 };
-        }
-
-        /// <summary>
-        /// This constructor allaws to initialize Poynomial of 1 degree.
-        /// </summary>
-        /// <param name="coeff1">Coeffitient of 1 degree.</param>
-        /// <param name="coeff2">Coeffitient of 0 degree.</param>
-        public Polynomial(int coeff1, int coeff2)
-        {
-            arrCoeff = new int[] { coeff1, coeff2 };
-        }
-
-        /// <summary>
-        /// This constructor allaws to initialize Poynomial of 2 degree.
-        /// </summary>
-        /// <param name="coeff1">Coeffitient of 2 degree.</param>
-        /// <param name="coeff2">Coeffitient of 1 degree.</param>
-        /// <param name="coeff3">Coeffitient of 0 degree.</param>
-        public Polynomial(int coeff1, int coeff2, int coeff3)
-        {
-            arrCoeff = new int[] { coeff1, coeff2, coeff3 };
-        }
-
+        //static Polynomial() troubles
+        //{
+        //    epsilon = double.Parse(System.Configuration.ConfigurationManager.AppSettings["epsilon"]);
+        //}
+              
         /// <summary>
         /// This constructor allaws to initialize Poynomial of n degree.
         /// </summary>
         /// <param name="arr">Array of coeffitients of polynomial of n degree.</param>
-        public Polynomial(params int[] arr)
+        public Polynomial(params double[] arr)
         {
-            arrCoeff = new int[arr.Length];
-            Array.Copy(arr, arrCoeff, arr.Length);
+            arrCoeff = new double[arr.Length];
+
+            for (int i = 0; i < arr.Length; i++)
+                //if (arr[i] < epsilon)
+                //    arrCoeff[i] = 0;
+                //else
+                    arrCoeff[i] = arr[i];
         }
         #endregion
 
@@ -72,24 +65,41 @@ namespace Task1
             StringBuilder result = new StringBuilder("P(x) = ");
 
             for (int i = 0; i < arrCoeff.Length - 1; i++)
-                result.Append($"{arrCoeff[i]}x^{--kol} + ");
+                if (this[i] != 0)
+                    result.Append($"{this[i]}x^{--kol} + ");
+                else kol--;
             result.Append(arrCoeff.Last());
 
             return result.ToString();
         }
 
         /// <summary>
-        /// This Method compares internal conditions in two polynomials.
+        /// This Method compares two polynomials.
         /// </summary>
         /// <param name="obj">Object type of polynomial.</param>
         /// <returns>True in case of equality of two polynomials.</returns>
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is Polynomial) || ((Polynomial)obj).GetHashCode() != GetHashCode())
+            if (ReferenceEquals(obj, null)) return false;
+
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Polynomial)obj);
+        }
+
+        /// <summary>
+        /// This Method compares two polynomials.
+        /// </summary>
+        /// <param name="other">Type of polynomial.</param>
+        /// <returns>True in case of equality of two polynomials.</returns>
+        public bool Equals(Polynomial other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+
+            if (this.GetHashCode() != other.GetHashCode())
                 return false;
 
-            for (int i = 0; i < arrCoeff.Length; i++)
-                if (arrCoeff[i] != ((Polynomial)obj).arrCoeff[i])
+            for (int i = 0; i < other.arrCoeff.Length; i++)
+                if (!this[i].Equals(other[i]))
                     return false;
 
             return true;
@@ -112,7 +122,7 @@ namespace Task1
         /// <param name="p1">Object type of polynomial.</param>
         /// <param name="p2">Object type of polynomial.</param>
         /// <returns>New object type of polynomial.</returns>
-        public static Polynomial operator + (Polynomial p1, Polynomial p2) => Add(p1,p2);
+        public static Polynomial operator + (Polynomial leftPl, Polynomial rightPl) => Add(leftPl, rightPl);
 
         /// <summary>
         /// Overloding operation which allaws to find substraction between two objects type of polynomial.
@@ -120,7 +130,7 @@ namespace Task1
         /// <param name="p1">Object type of polynomial.</param>
         /// <param name="p2">Object type of polynomial.</param>
         /// <returns>New object type of polynomial.</returns>
-        public static Polynomial operator - (Polynomial p1, Polynomial p2) => Sub(p1,p2);
+        public static Polynomial operator - (Polynomial leftPl, Polynomial rightPl) => Sub(leftPl, rightPl);
 
         /// <summary>
         /// Overloding operation which allaws to find multiply between two objects type of polynomial.
@@ -128,7 +138,7 @@ namespace Task1
         /// <param name="p1">Object type of polynomial</param>
         /// <param name="p2">Object type of polynomial</param>
         /// <returns>New object type of polynomial.</returns>
-        public static Polynomial operator * (Polynomial p1, Polynomial p2) => Mul(p1,p2);
+        public static Polynomial operator * (Polynomial leftPl, Polynomial rightPl) => Mul(leftPl, rightPl);
 
         /// <summary>
         /// Overloding operation which allaws to equal two objects type of polynomial.
@@ -136,7 +146,7 @@ namespace Task1
         /// <param name="p1">Object type of polynomial</param>
         /// <param name="p2">Object type of polynomial</param>
         /// <returns>New object type of polynomial.</returns>
-        public static bool operator == (Polynomial p1, Polynomial p2) => Eql(p1,p2);
+        public static bool operator == (Polynomial leftPl, Polynomial rightPl) => Eql(leftPl, rightPl);
 
         /// <summary>
         /// Overloding operation which allaws to equal two objects type of polynomial.
@@ -144,31 +154,28 @@ namespace Task1
         /// <param name="p1">Object type of polynomial</param>
         /// <param name="p2">Object type of polynomial</param>
         /// <returns>New object type of polynomial.</returns>
-        public static bool operator != (Polynomial p1, Polynomial p2) => NotEql(p1,p2);
-        #endregion
+        public static bool operator != (Polynomial leftPl, Polynomial rightPl) => NotEql(leftPl, rightPl);
+        
 
-        #region private operator overloading
         /// <summary>
         /// Overloding operation which allaws to find addition betwrrn two objects type of polynomial.
         /// </summary>
         /// <param name="p1">Object type of polynomial.</param>
         /// <param name="p2">Object type of polynomial.</param>
         /// <returns>New object type of polynomial.</returns>
-        private static Polynomial Add(Polynomial p1, Polynomial p2)
+        public static Polynomial Add(Polynomial leftPl, Polynomial rightPl)
         {
-            if (p1 == null || p2 == null)
-                throw new ArgumentException();
+            if (ReferenceEquals(leftPl,null) || ReferenceEquals(rightPl,null))
+                throw new ArgumentNullException();
 
-            int maxSize = p1.arrCoeff.Length;
-            if (p1.arrCoeff.Length < p2.arrCoeff.Length)
-                maxSize = p2.arrCoeff.Length;
-            
-            Polynomial p = new Polynomial { arrCoeff = new int[maxSize] };
-            Array.Copy(p1.arrCoeff, 0, p.arrCoeff, maxSize - p1.arrCoeff.Length, p1.arrCoeff.Length);
-            for (int i = maxSize - p2.arrCoeff.Length; i < maxSize; i++)
-                p.arrCoeff[i] += p2.arrCoeff[i];
+            int maxSize = Math.Max(leftPl.arrCoeff.Length, rightPl.arrCoeff.Length);
 
-            return p;
+            double[] arr = new double[maxSize];
+            Array.Copy(leftPl.arrCoeff, 0, arr, maxSize - leftPl.arrCoeff.Length, leftPl.arrCoeff.Length);
+            for (int i = maxSize - rightPl.arrCoeff.Length; i < maxSize; i++)
+                arr[i] += rightPl.arrCoeff[i];
+
+            return new Polynomial(arr);
         }
 
         /// <summary>
@@ -177,21 +184,30 @@ namespace Task1
         /// <param name="p1">Object type of polynomial.</param>
         /// <param name="p2">Object type of polynomial.</param>
         /// <returns>New object type of polynomial.</returns>
-        private static Polynomial Sub(Polynomial p1, Polynomial p2)
+        public static Polynomial Sub(Polynomial leftPl, Polynomial rightPl)
         {
-            if (p1 == null || p2 == null)
-                throw new ArgumentException();
+            if (ReferenceEquals(leftPl, null) || ReferenceEquals(rightPl, null))
+                throw new ArgumentNullException();
 
-            int maxSize = p1.arrCoeff.Length;
-            if (p1.arrCoeff.Length < p2.arrCoeff.Length)
-                maxSize = p2.arrCoeff.Length;
+            return leftPl + GetReserveSign(rightPl);
+        }
 
-            Polynomial p = new Polynomial { arrCoeff = new int[maxSize] };
-            Array.Copy(p1.arrCoeff, 0, p.arrCoeff, maxSize - p1.arrCoeff.Length, p1.arrCoeff.Length);
-            for (int i = maxSize - p2.arrCoeff.Length; i < maxSize; i++)
-                p.arrCoeff[i] -= p2.arrCoeff[i];
+        /// <summary>
+        /// Method creates new polynomial based on existing with elements of reserve sign.
+        /// </summary>
+        /// <param name="p">Polynomial.</param>
+        /// <returns>New polynomial.</returns>
+        public static Polynomial GetReserveSign (Polynomial p)
+        {
+            if (ReferenceEquals(p, null))
+                throw new ArgumentNullException();
 
-            return p;
+            double[] tempCoeff = new double[p.arrCoeff.Length];
+
+            for (int i = 0; i < tempCoeff.Length; i++)
+                tempCoeff[i] = p[i] * (-1);
+
+            return new Polynomial(tempCoeff);
         }
 
         /// <summary>
@@ -200,17 +216,18 @@ namespace Task1
         /// <param name="p1">Object type of polynomial</param>
         /// <param name="p2">Object type of polynomial</param>
         /// <returns>New object type of polynomial.</returns>
-        private static Polynomial Mul(Polynomial p1, Polynomial p2)
+        public static Polynomial Mul(Polynomial leftPl, Polynomial rightPl)
         {
-            if (p1 == null || p2 == null)
-                throw new ArgumentException();
+            if (ReferenceEquals(leftPl, null) || ReferenceEquals(rightPl, null))
+                throw new ArgumentNullException();
 
-            Polynomial p = new Polynomial { arrCoeff = new int[p1.arrCoeff.Length + p2.arrCoeff.Length - 1] };
-            for (int i = 0; i < p1.arrCoeff.Length; i++)
-                for (int j = 0; j < p2.arrCoeff.Length; j++)
-                    p.arrCoeff[i + j] += p1.arrCoeff[i] * p2.arrCoeff[j];
+            double[] tempCoeff = new double[leftPl.arrCoeff.Length + rightPl.arrCoeff.Length - 1];
 
-            return p;
+            for (int i = 0; i < leftPl.arrCoeff.Length; i++)
+                for (int j = 0; j < rightPl.arrCoeff.Length; j++)
+                    tempCoeff[i + j] += leftPl.arrCoeff[i] * rightPl.arrCoeff[j];
+
+            return new Polynomial(tempCoeff);
         }
 
         /// <summary>
@@ -219,10 +236,14 @@ namespace Task1
         /// <param name="p1">Object type of polynomial</param>
         /// <param name="p2">Object type of polynomial</param>
         /// <returns>New object type of polynomial.</returns>
-        private static bool Eql(Polynomial p1, Polynomial p2)
+        public static bool Eql(Polynomial leftPl, Polynomial rightPl)
         {
-            if (ReferenceEquals(p1, p2)) return true;
-            else return false;
+            if (ReferenceEquals(leftPl, rightPl)) return true;
+
+            if (ReferenceEquals(leftPl, null) || ReferenceEquals(rightPl, null))
+                throw new ArgumentNullException();
+
+            else return leftPl.Equals(rightPl);
         }
 
         /// <summary>
@@ -231,11 +252,21 @@ namespace Task1
         /// <param name="p1">Object type of polynomial</param>
         /// <param name="p2">Object type of polynomial</param>
         /// <returns>New object type of polynomial.</returns>
-        private static bool NotEql(Polynomial p1, Polynomial p2)
-        {
-            if (!ReferenceEquals(p1, p2)) return true;
-            else return false;
-        }
+        public static bool NotEql(Polynomial leftPl, Polynomial rightPl) => !Eql(leftPl, rightPl);
+        #endregion
+
+        #region Clone
+        /// <summary>
+        /// Method creates new polynomial based on existing.
+        /// </summary>
+        /// <returns>New polynomial.</returns>
+        public Polynomial Clone() => new Polynomial(this.arrCoeff);       
+
+        /// <summary>
+        /// Method creates new polynomial based on existing.
+        /// </summary>
+        /// <returns>New polynomial.</returns>
+        object ICloneable.Clone() => this.Clone();
         #endregion
     }
 }
