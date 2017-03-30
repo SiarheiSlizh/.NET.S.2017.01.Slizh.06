@@ -11,8 +11,8 @@ namespace Task1Tests
     [TestFixture]
     public class PolynomialTests
     {
-        [TestCase(new double[] { 3, 4, 6 }, ExpectedResult = "P(x) = 3x^2 + 4x^1 + 6")]
-        [TestCase(new double[] { 6, 6, 18, 5, -7 }, ExpectedResult = "P(x) = 6x^4 + 6x^3 + 18x^2 + 5x^1 + -7")]
+        [TestCase(new double[] { 0.00001, 3, 4, 6 }, ExpectedResult = "P(x) = 3x^2 + 4x^1 + 6")]
+        [TestCase(new double[] { 6, 0.00001 , 6, 18, 5, -7 }, ExpectedResult = "P(x) = 6x^5 + 6x^3 + 18x^2 + 5x^1 + -7")]
         public string ToString_PositiveTests(double[] args)
         {
             return new Polynomial(args).ToString();

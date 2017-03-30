@@ -17,7 +17,11 @@ namespace Task1
         /// Coeffitients of polynomial.
         /// </summary>
         private readonly double[] arrCoeff;
-        //public static double epsilon;
+
+        /// <summary>
+        /// Precision.
+        /// </summary>
+        public static double epsilon;
         #endregion
 
         #region Indexers
@@ -33,23 +37,26 @@ namespace Task1
         #endregion
 
         #region Constructors
-        //static Polynomial() troubles
-        //{
-        //    epsilon = double.Parse(System.Configuration.ConfigurationManager.AppSettings["epsilon"]);
-        //}
-              
         /// <summary>
-        /// This constructor allaws to initialize Poynomial of n degree.
+        /// This constructor allaws to initialize static field epsilon
         /// </summary>
-        /// <param name="arr">Array of coeffitients of polynomial of n degree.</param>
-        public Polynomial(params double[] arr)
+        static Polynomial()
+        {
+            epsilon = double.Parse(System.Configuration.ConfigurationManager.AppSettings["epsilon"], CultureInfo.InvariantCulture);
+        }
+
+    /// <summary>
+    /// This constructor allaws to initialize Poynomial of n degree.
+    /// </summary>
+    /// <param name="arr">Array of coeffitients of polynomial of n degree.</param>
+    public Polynomial(params double[] arr)
         {
             arrCoeff = new double[arr.Length];
 
             for (int i = 0; i < arr.Length; i++)
-                //if (arr[i] < epsilon)
-                //    arrCoeff[i] = 0;
-                //else
+                if (arr[i] < epsilon && arr[i] > -epsilon)
+                    arrCoeff[i] = 0;
+                else
                     arrCoeff[i] = arr[i];
         }
         #endregion
