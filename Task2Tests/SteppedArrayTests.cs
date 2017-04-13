@@ -33,7 +33,7 @@ namespace Task2Tests
         public void SteppedArray_ArgumentException(int[][] arr)
         {
             IComparer criterion = null;
-            Assert.Throws<ArgumentException>(() => SteppedArray.BubbleSort(arr, criterion));
+            Assert.Throws<ArgumentException>(() => SteppedArray.BubbleSort(arr, criterion.Compare));
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace Task2Tests
                     new int[] { 1 }
                 };
             IComparer criterion = new SortBySumElementsAsc();
-            Assert.Throws<ArgumentException>(() => SteppedArray.BubbleSort(actual, criterion));
+            Assert.Throws<ArgumentException>(() => SteppedArray.BubbleSort(actual, criterion.Compare));
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace Task2Tests
                     new int[] { 32, 11, -6, 4 }
                 };
             IComparer criterion = new SortBySumElementsAsc();
-            SteppedArray.BubbleSort(actual, criterion);
+            SteppedArray.BubbleSort(actual, criterion.Compare);
             Assert.AreEqual(actual, expected);
         }
 
@@ -79,7 +79,7 @@ namespace Task2Tests
                     new int[] { -12, 5, -2, 4 }
                 };
             IComparer criterion = new SortBySumElementsDesc();
-            SteppedArray.BubbleSort(actual, criterion);
+            SteppedArrayViceVersa.BubbleSort(actual, criterion);
             Assert.AreEqual(actual, expected);
         }
 
@@ -96,7 +96,7 @@ namespace Task2Tests
                     new int[] {-10, 32, 22, -19, 7, 5, 2 , -9}
                 };
             IComparer criterion = new SortByMaxElementsAsc();
-            SteppedArray.BubbleSort(actual, criterion);
+            SteppedArrayViceVersa.BubbleSort(actual, criterion);
             Assert.AreEqual(actual, expected);
         }
 
@@ -113,7 +113,7 @@ namespace Task2Tests
                     new int[] { -12, 5, -2, 4 }
                 };
             IComparer criterion = new SortByMaxElementsDesc();
-            SteppedArray.BubbleSort(actual, criterion);
+            SteppedArrayViceVersa.BubbleSort(actual, criterion);
             Assert.AreEqual(actual, expected);
         }
     }

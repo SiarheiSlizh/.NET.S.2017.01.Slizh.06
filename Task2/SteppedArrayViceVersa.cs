@@ -6,49 +6,30 @@ using System.Threading.Tasks;
 
 namespace Task2
 {
-    /// <summary>
-    /// Interface which is used to compare two arrays.
-    /// </summary>
-    public interface IComparer
-    {
-        /// <summary>
-        /// This method compare two arrays.
-        /// </summary>
-        /// <param name="arr1">First array.</param>
-        /// <param name="arr2">Second array.</param>
-        /// <returns></returns>
-        bool Compare(int[] arr1, int[] arr2);
-    }
-
-    /// <summary>
-    /// This class works with stepped arrays.
-    /// </summary>
-    public static class SteppedArray
+    public class SteppedArrayViceVersa
     {
         /// <summary>
         /// Method sorts stepped array using Bubble method.
         /// </summary>
         /// <param name="arr">Stepped array.</param>
-        /// <param name="criterion">Delegate that accepts method with corresponding parameters.</param>
-        public static void BubbleSort(int[][] arr, Func<int[],int[],bool> criterion)
+        /// <param name="criterion">object that implements the interface IComparer.</param>
+        public static void BubbleSort(int[][] arr, IComparer criterion)
         {
             ArgExcecption(arr);
-            if (criterion.Target is IComparer)
-                BubbleSort(arr, (IComparer)criterion.Target);
-            else throw new ArgumentException(nameof(criterion.Target));
+            BubbleSort(arr, criterion.Compare);   
         }
 
         /// <summary>
         /// Method sorts stepped array using Bubble method.
         /// </summary>
         /// <param name="arr">Stepped array.</param>
-        /// <param name="criterion">object that implements the interface IComparer.</param>
-        private static void BubbleSort(int[][] arr, IComparer criterion)
+        /// <param name="criterion">Delegate that accepts method with corresponding parameters.</param>
+        private static void BubbleSort(int[][] arr, Func<int[], int[], bool> criterion)
         {
             ArgExcecption(arr);
             for (int i = 0; i < arr.Length - 1; i++)
                 for (int j = i + 1; j < arr.Length; j++)
-                    if (criterion.Compare(arr[i], arr[j]))
+                    if (criterion(arr[i], arr[j]))
                         Replace(ref arr[i], ref arr[j]);
         }
 
