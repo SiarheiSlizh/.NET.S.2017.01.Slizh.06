@@ -7,20 +7,6 @@ using System.Threading.Tasks;
 namespace Task2
 {
     /// <summary>
-    /// Interface which is used to compare two arrays.
-    /// </summary>
-    public interface IComparer
-    {
-        /// <summary>
-        /// This method compare two arrays.
-        /// </summary>
-        /// <param name="arr1">First array.</param>
-        /// <param name="arr2">Second array.</param>
-        /// <returns></returns>
-        bool Compare(int[] arr1, int[] arr2);
-    }
-
-    /// <summary>
     /// This class works with stepped arrays.
     /// </summary>
     public static class SteppedArray
@@ -30,12 +16,10 @@ namespace Task2
         /// </summary>
         /// <param name="arr">Stepped array.</param>
         /// <param name="criterion">Delegate that accepts method with corresponding parameters.</param>
-        public static void BubbleSort(int[][] arr, Func<int[],int[],bool> criterion)
+        public static void BubbleSort(int[][] arr, Comparison<int[]> criterion)
         {
             ArgExcecption(arr);
-            if (criterion.Target is IComparer)
-                BubbleSort(arr, (IComparer)criterion.Target);
-            else throw new ArgumentException(nameof(criterion.Target));
+            BubbleSort(arr, Comparer<int[]>.Create(criterion));
         }
 
         /// <summary>
@@ -43,12 +27,12 @@ namespace Task2
         /// </summary>
         /// <param name="arr">Stepped array.</param>
         /// <param name="criterion">object that implements the interface IComparer.</param>
-        private static void BubbleSort(int[][] arr, IComparer criterion)
+        private static void BubbleSort(int[][] arr, IComparer<int[]> criterion)
         {
             ArgExcecption(arr);
             for (int i = 0; i < arr.Length - 1; i++)
                 for (int j = i + 1; j < arr.Length; j++)
-                    if (criterion.Compare(arr[i], arr[j]))
+                    if (criterion.Compare(arr[i], arr[j]) > 0)
                         Replace(ref arr[i], ref arr[j]);
         }
 

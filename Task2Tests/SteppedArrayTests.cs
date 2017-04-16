@@ -32,7 +32,7 @@ namespace Task2Tests
         [TestCase(null)]
         public void SteppedArray_ArgumentException(int[][] arr)
         {
-            IComparer criterion = null;
+            IComparer<int[]> criterion = new SortBySumElementsAsc();
             Assert.Throws<ArgumentException>(() => SteppedArray.BubbleSort(arr, criterion.Compare));
         }
 
@@ -45,7 +45,7 @@ namespace Task2Tests
                     null,
                     new int[] { 1 }
                 };
-            IComparer criterion = new SortBySumElementsAsc();
+            IComparer<int[]> criterion = new SortBySumElementsAsc();
             Assert.Throws<ArgumentException>(() => SteppedArray.BubbleSort(actual, criterion.Compare));
         }
 
@@ -61,7 +61,7 @@ namespace Task2Tests
                     new int[] {-10, 32, 22, -19, 7, 5, 2 , -9},
                     new int[] { 32, 11, -6, 4 }
                 };
-            IComparer criterion = new SortBySumElementsAsc();
+            IComparer<int[]> criterion = new SortBySumElementsAsc();
             SteppedArray.BubbleSort(actual, criterion.Compare);
             Assert.AreEqual(actual, expected);
         }
@@ -78,7 +78,7 @@ namespace Task2Tests
                     new int[] { 4, 7, -15, 2 },
                     new int[] { -12, 5, -2, 4 }
                 };
-            IComparer criterion = new SortBySumElementsDesc();
+            IComparer<int[]> criterion = new SortBySumElementsDesc();
             SteppedArrayViceVersa.BubbleSort(actual, criterion);
             Assert.AreEqual(actual, expected);
         }
@@ -95,7 +95,7 @@ namespace Task2Tests
                     new int[] { 32, 11, -6, 4 },
                     new int[] {-10, 32, 22, -19, 7, 5, 2 , -9}
                 };
-            IComparer criterion = new SortByMaxElementsAsc();
+            IComparer<int[]> criterion = new SortByMaxElementsAsc();
             SteppedArrayViceVersa.BubbleSort(actual, criterion);
             Assert.AreEqual(actual, expected);
         }
@@ -112,7 +112,7 @@ namespace Task2Tests
                     new int[] { 4, 7, -15, 2 },
                     new int[] { -12, 5, -2, 4 }
                 };
-            IComparer criterion = new SortByMaxElementsDesc();
+            IComparer<int[]> criterion = new SortByMaxElementsDesc();
             SteppedArrayViceVersa.BubbleSort(actual, criterion);
             Assert.AreEqual(actual, expected);
         }

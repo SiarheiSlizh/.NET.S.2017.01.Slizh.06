@@ -13,7 +13,7 @@ namespace Task2
         /// </summary>
         /// <param name="arr">Stepped array.</param>
         /// <param name="criterion">object that implements the interface IComparer.</param>
-        public static void BubbleSort(int[][] arr, IComparer criterion)
+        public static void BubbleSort(int[][] arr, IComparer<int[]> criterion)
         {
             ArgExcecption(arr);
             BubbleSort(arr, criterion.Compare);   
@@ -24,12 +24,12 @@ namespace Task2
         /// </summary>
         /// <param name="arr">Stepped array.</param>
         /// <param name="criterion">Delegate that accepts method with corresponding parameters.</param>
-        private static void BubbleSort(int[][] arr, Func<int[], int[], bool> criterion)
+        private static void BubbleSort(int[][] arr, Comparison<int[]> criterion)
         {
             ArgExcecption(arr);
             for (int i = 0; i < arr.Length - 1; i++)
                 for (int j = i + 1; j < arr.Length; j++)
-                    if (criterion(arr[i], arr[j]))
+                    if (criterion(arr[i], arr[j]) > 0)
                         Replace(ref arr[i], ref arr[j]);
         }
 
